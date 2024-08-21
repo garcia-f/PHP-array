@@ -47,29 +47,24 @@ function evaluarEstudiantes($estudiantes) {
         $parcial2 = $estudiante["parcial-2"];
         $porcentajeAsistencias = calcularPorcentajeAsistencias($estudiante["asistencias"]);
 
-        switch (true) {
-            case ($parcial1 >= 8 && $parcial2 >= 8 && $porcentajeAsistencias >= 80):
-                echo "Alumno regular - DNI: $dni - Alumno: $alumno<br>";
-                break;
-        
-            case ($parcial1 >= 8 && $parcial2 >= 8 && $porcentajeAsistencias < 80):
-                echo "Debe realizar clases de apoyo - DNI: $dni - Alumno: $alumno<br>";
-                break;
-        
-            case (($parcial1 < 8 || $parcial2 < 8) && $porcentajeAsistencias >= 80):
-                echo "Debe recuperar un parcial - DNI: $dni - Alumno: $alumno<br>";
-                break;
-        
-            default:
-                echo "Alumno libre - DNI: $dni - Alumno: $alumno<br>";
-                break;
+        if ($parcial1 >= 8 && $parcial2 >= 8) {
+            if ($porcentajeAsistencias >= 80) {
+                echo "Alumno regular - DNI: $dni<br>";
+
+            } else {
+                echo "Debe realizar clases de apoyo - DNI: $dni<br>";
+            }
+        } elseif (($parcial1 < 8 || $parcial2 < 8) && $porcentajeAsistencias >= 80) {
+                echo "Debe recuperar un parcial - DNI: $dni<br>";
+            } else {
+                echo "Alumno libre - DNI: $dni<br>";
         }
-    }     
-
-}
-
+    }
+}     
 
 
+
+echo "Creacion de los estudiantes: <br>";
 $estudiantes = cargarEstudiantes();
 foreach ($estudiantes as $estudiante) {
     var_dump($estudiante);
@@ -79,6 +74,7 @@ foreach ($estudiantes as $estudiante) {
 echo "<br>";
 echo "<br>";
 
+echo "Carga de notas y asistencias de los alumnos: <br>";
 $asistencias_notas = cargarNotasyAsistencias($estudiantes);
 foreach ($asistencias_notas as $asistencia_nota) {
     var_dump($asistencia_nota);
@@ -88,7 +84,7 @@ foreach ($asistencias_notas as $asistencia_nota) {
 echo "<br>";
 echo "<br>";
 
-echo "Resultado de los alumnos <br>";
+echo "Resultado de los alumnos: <br>";
 evaluarEstudiantes($asistencias_notas);
 
 ?> 
